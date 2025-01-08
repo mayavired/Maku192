@@ -24,7 +24,7 @@ q = gg.choice({
 "☢️SKINHACKS UPDATED",
 "▪︎ᴇxɪᴛ▪︎",
 },nil, "skin hax")
-if q == nil then else
+if q == nil then home() end
 if q == 1 then K1() end
 if q == 2 then K2() end
 if q == 3 then HOME() end
