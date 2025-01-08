@@ -1,104 +1,150 @@
-   weaponSkins = gg.multiChoice({
-        'AK117 Hizuki', 
-        'AK117 Hizuki lvl 3',
-        'AK117 Hizuki lvl 7',
-        'AK47 Mythic', 
-        'AK47 Mythic lvl 3',
-        'AK47 Mythic lvl 7',
-        'MK2 Redgun', 
-        'MK2 Redgun lvl 3',
-        'MK2 Redgun lvl 7',
-        'ASVAL Redgun', 
-        'ASVAL Redgun lvl 3',
-        'ASVAL Redgun lvl 7',
-        'M13 Forerunner', 
-        'M13 Forerunner lvl 3',
-        'M13 Forerunner lvl 7',
-        'Kilo141 FallingAngel', 
-        'Kilo141 FallingAngel lvl 3',
-        'Kilo141 FallingAngel lvl 7',
-        'Oden Mythic', 
-        'Oden Mythic lvl 3',
-        'Oden Mythic lvl 7',
-        'Krig6 IceDrake', 
-        'Krig6 IceDrake lvl 3',
-        'Krig6 IceDrake lvl 7',
-        'EM2 Redgun', 
-        'EM2 Redgun lvl 3',
-        'EM2 Redgun lvl 7',
-        'FFAR1CW BrightBlade', 
-        'FFAR1CW BrightBlade lvl 3',
-        'FFAR1CW BrightBlade lvl 7',
-        'GRAU556 SBT', 
-        'GRAU556 SBT lvl 3',
-        'GRAU556 SBT lvl 7',
-        'TYPE19X Ink', 
-        'TYPE19X Ink lvl 3',
-        'TYPE19X Ink lvl 7',
-        'F2000 StarEnergy', 
-        'F2000 StarEnergy lvl 3',
-        'F2000 StarEnergy lvl 7',
-        'DLQ33 LotusFlames', 
-        'DLQ33 LotusFlames lvl 3',
-        'DLQ33 LotusFlames lvl 7',
-        'AMR Redgun', 
-        'AMR Redgun lvl 3',
-        'AMR Redgun lvl 7',
-        'Holger26 DarkFrontier', 
-        'Holger26 DarkFrontier lvl 3',
-        'Holger26 DarkFrontier lvl 7',
-        'MG42 Debris', 
-        'MG42 Debris lvl 3',
-        'MG42 Debris lvl 7',
-        'QQ9 wakuwaku', 
-        'QQ9 wakuwaku lvl 3',
-        'QQ9 wakuwaku lvl 7',
-        'Fennec Ascended', 
-        'Fennec Ascended lvl 3',
-        'Fennec Ascended lvl 7',
-        'P90 Mythic', 
-        'P90 Mythic lvl 3',
-        'P90 Mythic lvl 7',
-        'Switchblade X9Tyuunibyou', 
-        'Switchblade X9Tyuunibyou lvl 3',
-        'Switchblade X9Tyuunibyou lvl 7',
-        'CX9 Reddo', 
-        'CX9 Reddo lvl 3',
-        'CX9 Reddo lvl 7',
-        'AK47 Pumpkin', 
-        'M4A1TECH CourtJester',
-        'XPR50 DemonMask', 
-        'XPR50 BrokenWill', 
-        'M21EBR RisingAshes', 
-        'DL Q33 LuxuryChristmas', 
-        'DL Q33 Zealot', 
-        'DL Q33 AdvancedArtillery', 
-        'DL Q33 Precise', 
-        'DLQ33 BLKMT', 
-        'LOCUS Neptune', 
-        'LOCUS Railgun', 
-        'LOCUS GhostHunter', 
-        'LOCUS MetalWhiskers', 
-        'MAC 10 AtomicStar', 
-        'MAC 10 DragonMight', 
-        'MAC 10 BastIdol', 
-        'MAC10 CodmDark', 
-        'BY15 ChaBaiDao', 
-        'BY15 ctopus', 
-        'M1887 KinnguNoTorannpetto', 
-        'KRM262 Ejector', 
-        'KRM262 GameBoy', 
-        'Echo NaturalCauses', 
-        'R90 Untapped', 
-        'JAK12 HardArmour',
-        'KaliSticks cobra', 
-        'ButterflyKnife Legendary', 
-        'KnifeChinano1 Chinano1', 
-        'SAI LiangZhai', 
-        'SPEAR loyalty',
-        'DIAMOND CAMO [USE NORMAL CAMO]',
-        'MALPRACTICE [BASE MELLE]'
-    }, nil, "Weapon Skinhax")
+function ktx(Search, Write, Type) gg.clearResults() gg.setVisible(false) gg.searchNumber(Search[1][1], Type) local count = gg.getResultCount() local result = gg.getResults(count) gg.clearResults() local data = {} local base = Search[1][2] if (count > 0) then for i, v in ipairs(result) do v.isUseful = true end for k=2, #Search do local tmp = {} local offset = Search[k][2] - base local num = Search[k][1] for i, v in ipairs(result) do tmp[#tmp+1] = {} tmp[#tmp].address = v.address + offset tmp[#tmp].flags = v.flags end tmp = gg.getValues(tmp) for i, v in ipairs(tmp) do if ( tostring(v.value) ~= tostring(num) ) then result[i].isUseful = false end end end for i, v in ipairs(result) do if (v.isUseful) then data[#data+1] = v.address end end if (#data > 0) then gg.toast('Results '..#data..' Edited') local t = {} local base = Search[1][2] for i=1, #data do for k, w in ipairs(Write) do offset = w[2] - base t[#t+1] = {} t[#t].address = data[i] + offset t[#t].flags = Type t[#t].value = w[1] if (w[3] == true) then local item = {} item[#item+1] = t[#t] item[#item].freeze = true gg.addListItems(item) end end end gg.setValues(t) else return false end else return false end end
+
+
+local HexPatches = {}
+function HexPatches.ktz(Lib,Offset,Edit,Type)
+local Ranges = gg.getRangesList(Lib)
+local v = {}
+v[1] = {}
+v[1].address = Ranges[1].start + Offset
+v[1].flags = Type
+v[1].value = Edit.."r"
+v[1].freeze = true
+gg.setValues(v)
+end
+
+
+
+
+
+function Lib() end
+function setvalue(address,flags,value) Lib('Modify address value(Address, value type, value to be modified)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
+function setValues(address, flags, value) gg.setValues({[1] = {address = address, flags = flags, value = value}}) end
+function setvalue(address,flags,value)
+local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
+
+
+
+
+ktz = 1
+
+
+function homee()
+q = gg.choice({
+"WEAPON SKINS",
+"CHARACTER SKINS",
+},nil,"Skinhax")
+if q == nil then else
+if q == 1 then skins() end
+if q == 2 then charac() end
+end
+end
+
+function skins()
+
+
+weaponSkins = gg.multiChoice({
+    'AK117 Hizuki', 
+    'AK117 Hizuki lvl 3',
+    'AK117 Hizuki lvl 7',
+    'AK47 Mythic', 
+    'AK47 Mythic lvl 3',
+    'AK47 Mythic lvl 7',
+    'MK2 Redgun', 
+    'MK2 Redgun lvl 3',
+    'MK2 Redgun lvl 7',
+    'ASVAL Redgun', 
+    'ASVAL Redgun lvl 3',
+    'ASVAL Redgun lvl 7',
+    'ASVAL Redgun', 
+    'M13 Forerunner', 
+    'M13 Forerunner lvl 3',
+    'M13 Forerunner lvl 7',
+    'Kilo141 FallingAngel', 
+    'Kilo141 FallingAngel lvl 3',
+    'Kilo141 FallingAngel lvl 7',
+    'Oden Mythic', 
+    'Oden Mythic lvl 3',
+    'Oden Mythic lvl 7',
+    'Krig6 IceDrake', 
+    'Krig6 IceDrake lvl 3',
+    'Krig6 IceDrake lvl 7',
+    'EM2 Redgun', 
+    'EM2 Redgun lvl 3',
+    'EM2 Redgun lvl 7',
+    'FFAR1CW BrightBlade', 
+    'FFAR1CW BrightBlade lvl 3',
+    'FFAR1CW BrightBlade lvl 7',
+    'GRAU556 SBT', 
+    'GRAU556 SBT lvl 3',
+    'GRAU556 SBT lvl 7',
+    'TYPE19X Ink', 
+    'TYPE19X Ink lvl 3',
+    'TYPE19X Ink lvl 7',
+    'F2000 StarEnergy', 
+    'F2000 StarEnergy lvl 3',
+    'F2000 StarEnergy lvl 7',
+    'DLQ33 LotusFlames', 
+    'DLQ33 LotusFlames lvl 3',
+    'DLQ33 LotusFlames lvl 7',
+    'AMR Redgun', 
+    'AMR Redgun lvl 3',
+    'AMR Redgun lvl 7',
+    'Holger26 DarkFrontier', 
+    'Holger26 DarkFrontier lvl 3',
+    'Holger26 DarkFrontier lvl 7',
+    'MG42 Debris', 
+    'MG42 Debris lvl 3',
+    'MG42 Debris lvl 7',
+    'QQ9 wakuwaku', 
+    'QQ9 wakuwaku lvl 3',
+    'QQ9 wakuwaku lvl 7',
+    'Fennec Ascended', 
+    'Fennec Ascended lvl 3',
+    'Fennec Ascended lvl 7',
+    'P90 Mythic', 
+    'P90 Mythic lvl 3',
+    'P90 Mythic lvl 7',
+    'Switchblade X9Tyuunibyou', 
+    'Switchblade X9Tyuunibyou lvl 3',
+    'Switchblade X9Tyuunibyou lvl 7',
+    'CX9 Reddo', 
+    'CX9 Reddo lvl 3',
+    'CX9 Reddo lvl 7',
+	'AK47 Pumpkin', 
+	'M4A1TECH CourtJester',
+	'XPR50 DemonMask', 
+    'XPR50 BrokenWill', 
+	'M21EBR RisingAshes', 
+	'DL Q33 LuxuryChristmas', 
+    'DL Q33 Zealot', 
+    'DL Q33 AdvancedArtillery', 
+    'DL Q33 Precise', 
+    'DLQ33 BLKMT', 
+    'LOCUS Neptune', 
+    'LOCUS Railgun', 
+    'LOCUS GhostHunter', 
+    'LOCUS MetalWhiskers', 
+	'MAC 10 AtomicStar', 
+    'MAC 10 DragonMight', 
+    'MAC 10 BastIdol', 
+    'MAC10 CodmDark', 
+    'BY15 ChaBaiDao', 
+    'BY15 ctopus', 
+    'M1887 KinnguNoTorannpetto', 
+    'KRM262 Ejector', 
+    'KRM262 GameBoy', 
+    'Echo NaturalCauses', 
+    'R90 Untapped', 
+    'JAK12 HardArmour',
+	'KaliSticks cobra', 
+    'ButterflyKnife Legendary', 
+    'KnifeChinano1 Chinano1', 
+    'SAI LiangZhai', 
+    'SPEAR loyalty',
+    'DIAMOND CAMO [USE NORMAL CAMO]',
+    'MALPRACTICE [BASE MELLE]',
+}, nil, "VIP")
 if weaponSkins == nil then else
 if weaponSkins[1] == true then skinFunction("AK117 Hizuki") end
 if weaponSkins[2] == true then skinFunction("AK117 Hizuki lvl 3") end
@@ -201,6 +247,8 @@ if weaponSkins[98] == true then skinFunction("SPEAR loyalty" ) end
 if weaponSkins[99] == true then skinFunction("DIAMOND CAMO") end
 if weaponSkins[100] == true then skinFunction("MALPRACTICE") end
 end
+end
+
 
 function skinFunction(skin)
 
@@ -6713,25 +6761,32 @@ end
     if (skin == 'MALPRACTICE') then
 function split(szFullString, szSeparator) local nFindStartIndex = 1 local nSplitIndex = 1 local nSplitArray = {} while true do local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex) if not nFindLastIndex then nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString)) break end nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1) nFindStartIndex = nFindLastIndex + string.len(szSeparator) nSplitIndex = nSplitIndex + 1 end return nSplitArray end function xgxc(szpy, qmxg) for x = 1, #(qmxg) do xgpy = szpy + qmxg[x]["offset"] xglx = qmxg[x]["type"] xgsz = qmxg[x]["value"] xgdj = qmxg[x]["freeze"] if xgdj == nil or xgdj == "" then gg.setValues({[1] = {address = xgpy, flags = xglx, value = xgsz}}) else gg.addListItems({[1] = {address = xgpy, flags = xglx, freeze = xgdj, value = xgsz}}) end xgsl = xgsl + 1 xgjg = true end end function xqmnb(qmnb) gg.clearResults() gg.setVisible(true) gg.setRanges(qmnb[1]["memory"]) gg.searchNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. " Failed") else gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) xxx=gg.getResultCount() if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. " Failed") else sl = gg.getResults(999999) sz = gg.getResultCount() xgsl = 0 if sz > 999999 then sz = 999999 end for i = 1, sz do pdsz = true for v = 4, #(qmnb) do if pdsz == true then pysz = {} pysz[1] = {} pysz[1].address = sl[i].address + qmnb[v]["offset"] pysz[1].flags = qmnb[v]["type"] szpy = gg.getValues(pysz) pdpd = qmnb[v]["lv"] .. ";" .. szpy[1].value szpd = split(pdpd, ";") tzszpd = szpd[1] pyszpd = szpd[2] if tzszpd == pyszpd then pdjg = true pdsz = true else pdjg = false pdsz = false end end end if pdjg == true then szpy = sl[i].address xgxc(szpy, qmxg) end end if xgjg == true then gg.toast(qmnb[2]["name"] .. "\nFound: "..xxx.." Edited: " .. xgsl .. "") else gg.toast(qmnb[2]["name"] .. " Failed") end end end gg.clearResults()  end
 
-gg.alert("Hello bitch")
+
+
+
+
+
+
+
+
 
 qmnb = {
 {["memory"] = 32},
-{["name"] = "Hello mf"}, 
+{["name"] = "1"}, 
 {["value"] = 10702999, ["type"] = 4},{["lv"] = 1057803469, ["offset"] = 16, ["type"] = 4},
 }qmxg = { {["value"] = 200002227, ["offset"] = -12, ["type"] = 4},
-}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "Don't copy paste"}, {["value"] = 10702999, ["type"] = 4},
+}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "🔥"}, {["value"] = 10702999, ["type"] = 4},
 {["lv"] = 6145, ["offset"] = -16, ["type"] = 4},}qmxg = { {["value"] = 10682, ["offset"] = 4, ["type"] = 4},
 {["value"] = 10702335, ["offset"] = 8, ["type"] = 4},
 }
 xqmnb(qmnb)
 qmnb = {
 {["memory"] = 32},
-{["name"] = "😐"}, 
+{["name"] = "@"}, 
 {["value"] = 10702299, ["type"] = 4},
 {["lv"] = 6145, ["offset"] = -16, ["type"] = 4},
 }qmxg = { {["value"] = 10682, ["offset"] = 4, ["type"] = 4},{["value"] = 10702335, ["offset"] = 8, ["type"] = 4},
-}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "Done"},{["value"] = 10702999, ["type"] = 4},{["lv"] = 1880000001, ["offset"] = 24, ["type"] = 4},
+}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "☢️"},{["value"] = 10702999, ["type"] = 4},{["lv"] = 1880000001, ["offset"] = 24, ["type"] = 4},
 }qmxg = {{["value"] = 16843009, ["offset"] = -12, ["type"] = 4},{["value"] = 1, ["offset"] = -8, ["type"] = 4},{["value"] = 3, ["offset"] = 8, ["type"] = 4},{["value"] = 0, ["offset"] = 32, ["type"] = 4},{["value"] = 0, ["offset"] = 52, ["type"] = 4},{["value"] = 0, ["offset"] = 56, ["type"] = 4},{["value"] = 0, ["offset"] = 60, ["type"] = 4},
 }
 
@@ -6741,25 +6796,166 @@ end
 
 end
 
-qmnb = {
-{["memory"] = 32},
-{["name"] = ""}, 
-{["value"] = 10702999, ["type"] = 4},{["lv"] = 1057803469, ["offset"] = 16, ["type"] = 4},
-}qmxg = { {["value"] = 200002227, ["offset"] = -12, ["type"] = 4},
-}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "Don't copy paste"}, {["value"] = 10702999, ["type"] = 4},
-{["lv"] = 6145, ["offset"] = -16, ["type"] = 4},}qmxg = { {["value"] = 10682, ["offset"] = 4, ["type"] = 4},
-{["value"] = 10702335, ["offset"] = 8, ["type"] = 4},
-}
-xqmnb(qmnb)
-qmnb = {
-{["memory"] = 32},
-{["name"] = ""}, 
-{["value"] = 10702299, ["type"] = 4},
-{["lv"] = 6145, ["offset"] = -16, ["type"] = 4},
-}qmxg = { {["value"] = 10682, ["offset"] = 4, ["type"] = 4},{["value"] = 10702335, ["offset"] = 8, ["type"] = 4},
-}xqmnb(qmnb)qmnb = {{["memory"] = 32},{["name"] = "Done"},{["value"] = 10702999, ["type"] = 4},{["lv"] = 1880000001, ["offset"] = 24, ["type"] = 4},
-}qmxg = {{["value"] = 16843009, ["offset"] = -12, ["type"] = 4},{["value"] = 1, ["offset"] = -8, ["type"] = 4},{["value"] = 3, ["offset"] = 8, ["type"] = 4},{["value"] = 0, ["offset"] = 32, ["type"] = 4},{["value"] = 0, ["offset"] = 52, ["type"] = 4},{["value"] = 0, ["offset"] = 56, ["type"] = 4},{["value"] = 0, ["offset"] = 60, ["type"] = 4},
-}
+function charac()
+
+b=gg.multiChoice({
+"TEMPLAR MYTHIC",
+"SPECTRE MYTHIC",
+"NYX LEGEND",
+"DAME LEGEND",
+"ZOMBIE MOB GUARD",
+"ARTERY OG SKIN",
+"DARK SHEPHERD",
+}, nil, "CHARACTER SKINS")
+if b == nil then else
+if b[1] == true then c19() end
+if b[2] == true then c20() end
+if b[3] == true then c21() end
+if b[4] == true then c22() end
+if b[5] == true then c23() end
+if b[6] == true then c24() end
+if b[7] == true then c25() end
+end
+end
 
 
-xqmnb(qmnb)
+
+function c19()
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003205", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003206", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003204", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("TEMPLAR MYTHIC ACTIVATED")
+end
+
+function c20()
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710002568", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710002569", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710002570", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("𝗦𝗣𝗘𝗖𝗧𝗥𝗘 𝗔𝗖𝗧𝗜𝗩𝗔𝗧𝗘")
+end
+
+function c21()
+gg.clearResults()
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710,003,067", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710,003,068", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710,003,069", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("NYX ACTIVATED")
+end
+
+function c22() 
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710004111", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710004112", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710004113", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("DAME ACTIVATED")
+end
+
+function c23()
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710001579", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710001580", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710001581", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("zombie mob activated")
+end
+
+function c24()    
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber(":Telegram-DuxinoYT", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.clearResults()
+
+gg.searchNumber(":YouTube-DuxinoYT", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.clearResults()
+
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710000366", gg.TYPE_DWORD)
+gg.clearResults()
+
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710000367", gg.TYPE_DWORD)
+gg.clearResults()
+
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710000368", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("ᴀʀᴛᴇʀʏ ᴏɢ activated")
+end
+
+function c25()
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("710001101", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003692", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001102", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003693", gg.TYPE_DWORD)
+gg.clearResults()
+gg.searchNumber("710001103", gg.TYPE_DWORD)
+gg.getResults(10000)
+gg.editAll("710003694", gg.TYPE_DWORD)
+gg.clearResults()
+gg.toast("ᴅᴀʀᴋ sʜᴇᴘʜᴇʀᴅ ᴅᴏɴᴇ")
+end
+
+while true do
+if gg.isVisible(true) then
+katsonuz = 1
+gg.setVisible(false) end
+if katsonuz == 1 then
+home() 
+end
+end
